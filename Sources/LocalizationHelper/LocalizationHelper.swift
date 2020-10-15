@@ -1,3 +1,10 @@
-struct LocalizationHelper {
-    var text = "Hello, World!"
+import Foundation
+
+public struct LocalizationHelper {
+    
+    public static func doSomething() {
+        
+        print("Something happened...")
+    }
+    
 }
