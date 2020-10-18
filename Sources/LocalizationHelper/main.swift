@@ -1,56 +1,50 @@
 import Foundation
 
 var dictionary: [[String : [String:String] ] ] = []
-var k: [String] = []
-var v: [String] = []
-var dictionaryKeys: [String] = []
-var s: [String] = []
 
 
-//var hello: [String : String] = [ "en" : "Hello", "ru" : "Привет", "pt" : "Hola"]
-//v.append(contentsOf: hello.values)
-//k.append(contentsOf: hello.keys)
-//dictionary.append(["hello" : hello])
-//dictionaryKeys.append(contentsOf: dictionary[0].keys)
-//dictionaryValues.append(String(describing: dictionary[0]["hello"]))
+var hello: [String : String] = [ "en" : "Hello", "ru" : "Привет", "pt" : "Hola"]
+dictionary.append(["hello" : hello])
+var day: [String : String] = [ "en" : "Day", "ru" : "День", "pt" : "Dia"]
+dictionary.append(["day" : day])
+var sun: [String : String] = [ "en" : "Sun", "ru" : "Солнце", "pt" : "Suno"]
+dictionary.append(["sun" : sun])
 
-func addWord(index: Int, dict: String, word: String, en: String, ru: String, pt: String) {
-    let word: [String : String] = [ "en" : en, "ru" : ru, "pt" : pt]
-    v.append(contentsOf: word.values)
-    k.append(contentsOf: word.keys)
-    dictionary.append([dict : word])
-    dictionaryKeys.append(contentsOf: dictionary[index].keys)
+
+//если первый ключ у тебя сам ключ слова (например «hello» для слова «привет»), а второй – язык, то для распечатки с ключом -l можно пройти по всем элементам «внешнего» словаря, для каждого из них проверить, есть ли внутри словарь с ключем, соответствующим нужному языку (если есть, то берем это слово и выводим пару ключ=значение)
+
+//print("\(dictionary[1])")
+//print("\(hello.keys.contains("en"))")
+//print(dictionary[i].values.first?.keys.contains("en"))
+//print("\(dictionary[i].keys) = ")
+
+//-l
+func l(lang: String) {
+    for i in 0 ..< dictionary.count {
+        if dictionary[i].values.first?.keys.contains(lang) == true {
+            print("\(dictionary[i].keys) = \(dictionary[i].values.first![lang]!)")
+        }
+    }
 }
+//l(lang: "ru")
 
-addWord(index: 0, dict: "hello", word: "hello", en: "Hello", ru: "Привет", pt: "Hola")
-addWord(index: 1, dict: "day", word: "day", en: "Day", ru: "День", pt: "Dia")
-addWord(index: 2, dict: "terms", word: "terms", en: "Terms", ru: "Срок", pt: "Termos")
-
-
-func printAllWords() {
-    print("\(dictionaryKeys[0])\n\(k[0]) : \(v[0])\n\(k[1]) : \(v[1])\n\(k[2]) : \(v[2])")
-    print("\(dictionaryKeys[1])\n\(k[3]) : \(v[3])\n\(k[4]) : \(v[4])\n\(k[5]) : \(v[5])")
-    print("\(dictionaryKeys[2])\n\(k[6]) : \(v[6])\n\(k[7]) : \(v[7])\n\(k[8]) : \(v[8])")
+//k
+func k(word: String) {
+    for i in 0 ..< dictionary.count {
+        if dictionary[i].keys.contains(word) == true {
+            print(dictionary[i].keys)
+            print(dictionary[i].values)
+        }
+    }
 }
-func printK() {
-    print("\(dictionaryKeys[0])\n\(k[0]) : \(v[0])\n\(k[1]) : \(v[1])\n\(k[2]) : \(v[2])")
+//k(word: "sun")
+
+func def() {
+    for i in 0 ..< dictionary.count {
+        print(dictionary[i])
+    }
 }
-printAllWords()
-
-//перебор 
-let countries = ["Iran", "Iraq", "Syria", "Lebanon", "Iran"]
-let capitals = ["Tehran", "Bagdad", "Damascus", "Beirut", "Tehran"]
-var seq = zip(k, v)
- 
-var dict = Dictionary(seq, uniquingKeysWith:{return $1})
- 
-for (key, value) in dict {
-    print("\(key) - \(value)")
-}
-
-
-
-
+def()
 
 
 
