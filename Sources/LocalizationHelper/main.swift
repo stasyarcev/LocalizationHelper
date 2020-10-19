@@ -44,9 +44,24 @@ func def() {
         print(dictionary[i])
     }
 }
-def()
 
+if CommandLine.arguments.count == 1 {
+    guard let name = readLine(strippingNewline: true) else {
+        exit(0)
+    }
+    values(key: name)
+} else {
+    let name = CommandLine.arguments[1]
+    values(key: name)
+}
 
-
-
-
+func values(key: String) {
+    if key == "-k" {
+        k(word: "sun")
+    } else if key == "-l" {
+        l(lang: "en")
+    }
+    else {
+        def()
+    }
+}
