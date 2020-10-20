@@ -1,7 +1,6 @@
 import Foundation
 
-var dictionary: [[String : [String:String] ] ] = []
-
+var dictionary: [[String : [String:String]]] = []
 
 var hello: [String : String] = [ "en" : "Hello", "ru" : "Привет", "pt" : "Hola"]
 dictionary.append(["hello" : hello])
@@ -10,58 +9,81 @@ dictionary.append(["day" : day])
 var sun: [String : String] = [ "en" : "Sun", "ru" : "Солнце", "pt" : "Suno"]
 dictionary.append(["sun" : sun])
 
-
-//если первый ключ у тебя сам ключ слова (например «hello» для слова «привет»), а второй – язык, то для распечатки с ключом -l можно пройти по всем элементам «внешнего» словаря, для каждого из них проверить, есть ли внутри словарь с ключем, соответствующим нужному языку (если есть, то берем это слово и выводим пару ключ=значение)
-
-//print("\(dictionary[1])")
-//print("\(hello.keys.contains("en"))")
-//print(dictionary[i].values.first?.keys.contains("en"))
-//print("\(dictionary[i].keys) = ")
-
 //-l
-func l(lang: String) {
+func l(word: String) {
+    var math = false
     for i in 0 ..< dictionary.count {
-        if dictionary[i].values.first?.keys.contains(lang) == true {
-            print("\(dictionary[i].keys) = \(dictionary[i].values.first![lang]!)")
+        if dictionary[i].values.first?.keys.contains(word) == true {
+            math = true
+            for lang in dictionary[i].keys {
+                print("\(lang): \(dictionary[i].values.first![word]!)")
+            }
         }
     }
+    if math == false {
+        print("Not found")
+    }
 }
-//l(lang: "ru")
 
-//k
+//-k
 func k(word: String) {
+    var math = false
     for i in 0 ..< dictionary.count {
         if dictionary[i].keys.contains(word) == true {
-            print(dictionary[i].keys)
-            print(dictionary[i].values)
+            math = true
+            print(word)
+            for (lang, val) in dictionary[i].values.first! {
+                print("\(lang): \(val)")
+            }
         }
     }
+    if math == false {
+        print("Not found")
+    }
 }
-//k(word: "sun")
+
+// booth
+func kl(word: String, lang: String) {
+    var math = false
+    for i in 0 ..< dictionary.count {
+        if dictionary[i].keys.contains(word) == true {
+            for (lang, val) in dictionary[i].values.first! {
+                if lang == lang {
+                    math = true
+                    print(val)
+                }
+            }
+        }
+    }
+    if math == false {
+        print("Not found")
+    }
+}
 
 func def() {
     for i in 0 ..< dictionary.count {
-        print(dictionary[i])
+        for (word, trans) in dictionary[i] {
+            print(word)
+            for (lang, val) in trans {
+                print("\(lang): \(val)")
+            }
+        }
     }
 }
 
 if CommandLine.arguments.count == 1 {
-    guard let name = readLine(strippingNewline: true) else {
-        exit(0)
+    def()
+} else if CommandLine.arguments.count == 3 {
+    if CommandLine.arguments[1] == "-k" && CommandLine.arguments.count == 3 {
+        let word = CommandLine.arguments[2]
+        k(word: word)
+    } else if CommandLine.arguments[1] == "-l" {
+        let word = CommandLine.arguments[2]
+        l(word: word)
     }
-    values(key: name)
-} else {
-    let name = CommandLine.arguments[1]
-    values(key: name)
+} else if CommandLine.arguments.count == 5 {
+    let word = CommandLine.arguments[2]
+    let lang = CommandLine.arguments[4]
+    kl(word: word, lang: lang)
 }
 
-func values(key: String) {
-    if key == "-k" {
-        k(word: "sun")
-    } else if key == "-l" {
-        l(lang: "en")
-    }
-    else {
-        def()
-    }
-}
