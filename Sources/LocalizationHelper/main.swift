@@ -1,13 +1,8 @@
 import Foundation
 
-var dictionary: [[String : [String:String]]] = []
 
-var hello: [String : String] = [ "en" : "Hello", "ru" : "Привет", "pt" : "Hola"]
 dictionary.append(["hello" : hello])
-var day: [String : String] = [ "en" : "Day", "ru" : "День", "pt" : "Dia"]
-dictionary.append(["day" : day])
-var sun: [String : String] = [ "en" : "Sun", "ru" : "Солнце", "pt" : "Suno"]
-dictionary.append(["sun" : sun])
+
 
 //-l
 func l(word: String) {
