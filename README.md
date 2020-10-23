@@ -16,10 +16,7 @@ USAGE: swift run LocalizationHelper [--key <key>] [--language <language>]
 
 OPTIONS:
   -h, --help              Show help information.
-
-SUBCOMMANDS:
-  number                  Choose a random number between 1 and input
-  pick                    Pick random element from your input
-
-
+  -k, --key               Displays all translations of a 'word'.
+  -l, --language          Displays all words of a 'languge'.
+  
 ```
