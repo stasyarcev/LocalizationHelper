@@ -10,11 +10,16 @@
 
 ## Запуск проекта
 ```
-> USAGE: swift run LocalizationHelper [--key <key>] [--language <language>]
+OVERVIEW: Dictionary of words and their translation
 
-    OPTIONS:
-    -k, --key <key>             Localization key
-    -l, --language <language>   Localization language
-    
-    -h, --help                  Show help information
+USAGE: swift run LocalizationHelper [--key <key>] [--language <language>]
+
+OPTIONS:
+  -h, --help              Show help information.
+
+SUBCOMMANDS:
+  number                  Choose a random number between 1 and input
+  pick                    Pick random element from your input
+
+
 ```
