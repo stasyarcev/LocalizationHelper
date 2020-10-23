@@ -8,28 +8,26 @@
 import ArgumentParser
 import Foundation
 
-class ArgumentParser: ArgumentParserProtocol {
-    func parse() {
-        guard  let rawArguments = try? ApplicationOptions.parse() else {
-            print(ApplicationOptions.helpMessage())
-            exit(withError: 0)
+struct Values: ParsableCommand {
+
+    @Option(name: .shortAndLong, help: "Displays all translations of a 'word'.")
+    var key: String
+    @Option(name: .shortAndLong, help: "Displays all words of a 'languge'.")
+    var language: String
+    
+    func run() throws {
+            
+        if key.isEmpty == true && language.isEmpty == true {
+           def()
+        } else if key.isEmpty == false && language.isEmpty == true {
+            k(key: key)
+        } else if key.isEmpty == true && language.isEmpty == false {
+            l(lang: language)
+        } else if key.isEmpty == false && language.isEmpty == false {
+            kl(key: key, lang: language)
         }
-        
-        return Arguments(
-            key: rawArguments.key,
-            language: rawArguments.language
-        )
     }
 }
-
-private struct ApplicationOptions: ParsableArguments {
-    @Option(name: .shortAndLong, help: ArgumentHelp("Localization key", valueName: "key"))
-    var key: String?
-    
-    @Option(name: .shortAndLong, help: ArgumentHelp("Localization language", valueName: "language"))
-    var language: String?
-}
-
 
 
 
