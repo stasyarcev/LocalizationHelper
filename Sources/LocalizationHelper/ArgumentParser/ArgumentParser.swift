@@ -12,19 +12,19 @@ struct Values: ParsableCommand {
 
     @Option(name: .shortAndLong, help: "Displays all translations of a 'word'.")
     var key: String?
-    @Option(name: .shortAndLong, help: "Displays all words of a 'languge'.")
+    @Option(name: .shortAndLong, help: "Displays all words of a 'language'.")
     var language: String?
     
     func run() throws {
             
         if key == nil && language == nil {
             def()
-        } else if key != nil && language == nil {
-            k(key: key!)
-        } else if key == nil && language != nil {
-            l(lang: language!)
-        } else if key?.isEmpty == false && language?.isEmpty == false {
-            kl(key: key!, lang: language!)
+        } else if let key = key, language == nil {
+            k(key: key)
+        } else if let language = language, key == nil {
+            l(lang: language)
+        } else if let key = key, let language = language {
+            kl(key: key, lang: language)
         }
     }
 }

@@ -1,17 +1,24 @@
 
 import Foundation
 
+//json
+let patch = "Dictionary.json"
+let decoder = JSONDecoder()
+var dictionary: [[String : [String:String]]] = [[:]]
+
+
+
 //math
 var math = false
 
 //-l
 func l(lang: String) {
     for i in 0 ..< dictionary.count {
-        if dictionary[i].values.first?.keys.contains(lang) == true {
-            math = true
-            for (l, v) in dictionary[i].values.first! {
-                if l == lang {
-                    print("\(dictionary[i].keys.first!) : \(v)")
+        for (key, values) in dictionary[i] {
+            for (language, word) in values {
+                if language == lang {
+                    math = true
+                    print("\(key): \(word)")
                 }
             }
         }
@@ -24,11 +31,13 @@ func l(lang: String) {
 //-k
 func k(key: String) {
     for i in 0 ..< dictionary.count {
-        if dictionary[i].keys.contains(key) == true {
-            math = true
-            print(key)
-            for (lang, val) in dictionary[i].values.first! {
-                print("\(lang): \(val)")
+        for (word, values) in dictionary[i] {
+            if word.lowercased() == key.lowercased() {
+                math = true
+                print(key)
+                for (langValue, wordValue) in values {
+                    print("\(langValue): \(wordValue)")
+                }
             }
         }
     }
@@ -40,11 +49,13 @@ func k(key: String) {
 // booth
 func kl(key: String, lang: String) {
     for i in 0 ..< dictionary.count {
-        if dictionary[i].keys.first!.contains(key) {
-            for (language, value) in dictionary[i].values.first! {
-                if language == lang {
-                    math = true
-                    print(value)
+        for (keys, values) in dictionary[i] {
+            if keys == key {
+                for (language, word) in values {
+                    if lang == language {
+                        math = true
+                        print(word)
+                    }
                 }
             }
         }
