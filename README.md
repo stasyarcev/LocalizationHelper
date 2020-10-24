@@ -1,6 +1,6 @@
 # LocalizationHelper
 
-## Сборака проекта
+## Сборка проекта
 
 ```
 > git clone https://github.com/stasyarcev/LocalizationHelper
