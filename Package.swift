@@ -19,7 +19,9 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "LocalizationHelper",
-            dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]),
+            dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+            resources: [.process("Dictionary.swift")]
+            ),
         .testTarget(
             name: "LocalizationHelperTests",
             dependencies: ["LocalizationHelper"]),
