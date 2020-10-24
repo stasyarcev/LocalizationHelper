@@ -11,23 +11,20 @@ import Foundation
 struct Values: ParsableCommand {
 
     @Option(name: .shortAndLong, help: "Displays all translations of a 'word'.")
-    var key: String
+    var key: String?
     @Option(name: .shortAndLong, help: "Displays all words of a 'languge'.")
-    var language: String
+    var language: String?
     
     func run() throws {
             
-        if key.isEmpty == true && language.isEmpty == true {
-           def()
-        } else if key.isEmpty == false && language.isEmpty == true {
-            k(key: key)
-        } else if key.isEmpty == true && language.isEmpty == false {
-            l(lang: language)
-        } else if key.isEmpty == false && language.isEmpty == false {
-            kl(key: key, lang: language)
+        if key == nil && language == nil {
+            def()
+        } else if key != nil && language == nil {
+            k(key: key!)
+        } else if key == nil && language != nil {
+            l(lang: language!)
+        } else if key?.isEmpty == false && language?.isEmpty == false {
+            kl(key: key!, lang: language!)
         }
     }
 }
-
-
-
