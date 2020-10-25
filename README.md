@@ -4,7 +4,7 @@
 
 ```
 > git clone https://github.com/stasyarcev/LocalizationHelper
-> cd LocalizationHelper
+> cd LocalizationHelper/Sources/Localizationhelper
 > swift build
 ```
 
