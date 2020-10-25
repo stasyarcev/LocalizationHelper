@@ -1,0 +1,13 @@
+{
+    "hello": {"en": "Hello",
+            "ru": "Привет",
+             "pt": "Hola"},
+    
+    "sun": {"en": "Sun",
+            "ru": "Солнце",
+             "pt": "Sol"},
+    
+    "cat": {"en": "Cat",
+              "ru": "Кошка",
+               "pt": "Gata"}
+    }
