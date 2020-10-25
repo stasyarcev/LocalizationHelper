@@ -7,8 +7,8 @@ let patch = "dictionary.json"
 let decoder = JSONDecoder()
 var dictionary: [String : [String:String]] = [:]
 
-if let json = FileManager.default.contents(atPath: patch) {
-    dictionary = (try? decoder.decode([String: [String: String]].self, from: json)) ?? [:]
+if let jsonDict = FileManager.default.contents(atPath: patch) {
+    dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDict)) ?? [:]
 } else {
     dictionary = [:]
 }
