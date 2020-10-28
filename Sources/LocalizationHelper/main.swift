@@ -94,4 +94,25 @@ struct Values: ParsableCommand {
     }
 }
 
+//Для поиска слов теперь использовать конструкцию с ключевым словом search. Работа с ключами остается прежней, они оба опциональные.
+//> app search -k <key> -l <language>
+
+struct Search: ParsableCommand {
+    //
+}
+
+//Для обновления (добавления) используем ключевое слово update. Оба ключа обязательны.
+//> app update <word> -k <key> -l <language>
+
+struct Update: ParsableCommand {
+    //
+}
+
+//Для удаления используем ключевое слово delete. Обязателен один из ключей, могут использоваться оба ключа.
+//> app delete -k <key> -l <language>
+
+struct Delete: ParsableCommand {
+    //
+}
+
 Values.main()
