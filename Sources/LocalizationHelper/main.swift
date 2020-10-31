@@ -41,6 +41,31 @@ func add(key: String, word: String, lang: String) -> [String: [String: String]] 
     return dictionary
 }
 
+//delete -l
+func delL(lang: String) -> [String: [String: String]] {
+    //print("Deleting -l ...")
+    for (key, values) in dictionary {
+        var values = values
+        values[lang] = nil
+        dictionary[key] = values
+    }
+    return dictionary
+}
+
+//delete -k
+func delK(key: String) -> [String: [String: String]] {
+    dictionary[key] = nil
+    return dictionary
+}
+
+//delete -k -l
+func delKL(key: String, lang: String) -> [String: [String: String]] {
+    //print("Deleting -k -l ...")
+    var values = dictionary[key] ?? [:]
+    values[lang] = nil
+    dictionary[key] = values
+    return dictionary
+}
 
 // -l
 func l(lang: String) {
@@ -165,8 +190,23 @@ extension Values {
         
         static let configuration = CommandConfiguration(abstract: "To delete, use the delete keyword. One of the keys is required, both keys can be used.")
         
-        func run() {
-            print("Deleting JSON file...")
+        @Option(name: .shortAndLong, help: "Delete 'word' by key.")
+        var key: String?
+        @Option(name: .shortAndLong, help: "Remove the translation of a word from a dictionary.")
+        var language: String?
+        
+        func run() throws {
+            
+            if key == nil && language == nil {
+                print("You can delete these words: ")
+                def()
+            } else if let key = key, language == nil {
+                jsonEncoding(dict: delK(key: key))
+            } else if let language = language, key == nil {
+                jsonEncoding(dict: delL(lang: language))
+            } else if let key = key, let language = language {
+                jsonEncoding(dict: delKL(key: key, lang: language))
+            }
         }
     }
 }
@@ -174,6 +214,7 @@ extension Values {
 Values.main()
 
 // MARK: - Extensions
+
 extension String {
     func capitalizingFirstLetter() -> String {
         return prefix(1).capitalized + dropFirst()
