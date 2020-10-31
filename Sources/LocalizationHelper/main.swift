@@ -2,21 +2,47 @@
 import Foundation
 import ArgumentParser
 
-//json
-let patch = "dictionary.json"
+// MARK: - JSON
+
+var math = false
+let path = Bundle.main.path(forResource: "dictionary", ofType: "json") ?? "dict.json"
 let decoder = JSONDecoder()
+let encoder = JSONEncoder()
 var dictionary: [String : [String:String]] = [:]
 
-if let jsonDict = FileManager.default.contents(atPath: patch) {
+// MARK: - JSON decoding
+
+if let jsonDict = FileManager.default.contents(atPath: path) {
     dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDict)) ?? [:]
 } else {
     dictionary = [:]
 }
 
-//math
-var math = false
+// MARK: - JSON encoding
 
-//-l
+func jsonEncoding(dict: [String: [String: String]]) {
+    
+    encoder.outputFormatting = .prettyPrinted
+    let json = (try? encoder.encode(dict))
+    guard let path = Bundle.main.url(forResource: "dictionary", withExtension: "json") else {
+        return
+    }
+    try? json?.write(to: path)
+}
+
+// MARK: - commands
+
+// add
+func add(key: String, word: String, lang: String) -> [String: [String: String]] {
+    //[dog: [en: Dog]]
+    var newWord: [String: String] = dictionary[word] ?? [:]
+    newWord[lang] = key
+    dictionary[word] = newWord
+    return dictionary
+}
+
+
+// -l
 func l(lang: String) {
     for (key, values) in dictionary {
         for (language, word) in values {
@@ -31,7 +57,7 @@ func l(lang: String) {
     }
 }
 
-//-k
+// -k
 func k(key: String) {
     for (word, values) in dictionary {
         if word.lowercased() == key.lowercased() {
@@ -47,7 +73,7 @@ func k(key: String) {
     }
 }
 
-// booth
+// booth -k -l
 func kl(key: String, lang: String) {
     for (keys, values) in dictionary {
         if keys == key {
@@ -64,6 +90,7 @@ func kl(key: String, lang: String) {
     }
 }
 
+// show entire dictionary
 func def() {
     for (word, trans) in dictionary {
         print(word)
@@ -72,6 +99,8 @@ func def() {
         }
     }
 }
+
+// MARK: - Parsing arguments
 
 struct Values: ParsableCommand {
     
@@ -92,12 +121,6 @@ extension Values {
         var key: String?
         @Option(name: .shortAndLong, help: "Displays all words of a 'language'.")
         var language: String?
-        
-//        func validate() throws {
-//            guard math == true else {
-//                throw ValidationError("Not Found")
-//            }
-//        }
         
         func run() throws {
                 
@@ -120,13 +143,18 @@ extension Values {
         
         static let configuration = CommandConfiguration(abstract: "To update (add) use the update keyword. Both keys are required.")
         
+        @Argument(help: "Update(add) word")
+        var word: String
+        
         @Option(name: .shortAndLong, help: "-k - name of the key for storing (adding) words")
         var key: String
         @Option(name: .shortAndLong, help: "Enter the language in which this 'word' is written.")
         var language: String
         
+        
         func run() {
-            print("Updating JSON file...")
+            dictionary = add(key: key.capitalizingFirstLetter(), word: word, lang: language)
+            jsonEncoding(dict: dictionary)
         }
     }
 
@@ -144,3 +172,14 @@ extension Values {
 }
 
 Values.main()
+
+// MARK: - Extensions
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
