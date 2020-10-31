@@ -3,27 +3,26 @@ import Foundation
 import ArgumentParser
 
 // MARK: - JSON
-
 var math = false
-let path = Bundle.main.path(forResource: "dictionary", ofType: "json") ?? "dict.json"
+let path = Bundle.main.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
 let decoder = JSONDecoder()
 let encoder = JSONEncoder()
 var dictionary: [String : [String:String]] = [:]
 
 // MARK: - JSON decoding
 
-if let jsonDict = FileManager.default.contents(atPath: path) {
-    dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDict)) ?? [:]
+if let jsonDictionary = FileManager.default.contents(atPath: path) {
+    dictionary = (try? decoder.decode([String: [String: String]].self, from: jsonDictionary)) ?? [:]
 } else {
     dictionary = [:]
 }
 
 // MARK: - JSON encoding
 
-func jsonEncoding(dict: [String: [String: String]]) {
+func jsonEncoding(dictionary: [String: [String: String]]) {
     
     encoder.outputFormatting = .prettyPrinted
-    let json = (try? encoder.encode(dict))
+    let json = (try? encoder.encode(dictionary))
     guard let path = Bundle.main.url(forResource: "dictionary", withExtension: "json") else {
         return
     }
@@ -44,10 +43,10 @@ func add(key: String, word: String, lang: String) -> [String: [String: String]] 
 //delete -l
 func delL(lang: String) -> [String: [String: String]] {
     //print("Deleting -l ...")
-    for (key, values) in dictionary {
-        var values = values
+    for (keyDictionary, valuesDictionary) in dictionary {
+        var values = valuesDictionary
         values[lang] = nil
-        dictionary[key] = values
+        dictionary[keyDictionary] = values
     }
     return dictionary
 }
@@ -69,11 +68,11 @@ func delKL(key: String, lang: String) -> [String: [String: String]] {
 
 // -l
 func l(lang: String) {
-    for (key, values) in dictionary {
-        for (language, word) in values {
+    for (keyDictionary, valuesDictionary) in dictionary {
+        for (language, word) in valuesDictionary {
             if language == lang {
-                math = true
-                print("\(key): \(word)")
+                math.toggle()
+                print("\(keyDictionary): \(word)")
             }
         }
     }
@@ -84,12 +83,12 @@ func l(lang: String) {
 
 // -k
 func k(key: String) {
-    for (word, values) in dictionary {
-        if word.lowercased() == key.lowercased() {
-            math = true
+    for (keyDictionary, valuesDictionary) in dictionary {
+        if keyDictionary.lowercased() == key.lowercased() {
+            math.toggle()
             print(key)
-            for (langValue, wordValue) in values {
-                print("\(langValue): \(wordValue)")
+            for (language, word) in valuesDictionary {
+                print("\(language): \(word)")
             }
         }
     }
@@ -100,11 +99,11 @@ func k(key: String) {
 
 // booth -k -l
 func kl(key: String, lang: String) {
-    for (keys, values) in dictionary {
-        if keys == key {
-            for (language, word) in values {
-                if lang == language {
-                    math = true
+    for (keyDictionary, valuesDictionary) in dictionary {
+        if keyDictionary == key {
+            for (language, word) in valuesDictionary {
+                if language == lang {
+                    math.toggle()
                     print(word)
                 }
             }
@@ -117,10 +116,10 @@ func kl(key: String, lang: String) {
 
 // show entire dictionary
 func def() {
-    for (word, trans) in dictionary {
-        print(word)
-        for (lang, val) in trans {
-            print("\(lang): \(val)")
+    for (keyDictionary, valuesDictionary) in dictionary {
+        print(keyDictionary)
+        for (language, word) in valuesDictionary {
+            print("\(language): \(word)")
         }
     }
 }
@@ -179,7 +178,7 @@ extension Values {
         
         func run() {
             dictionary = add(key: key.capitalizingFirstLetter(), word: word, lang: language)
-            jsonEncoding(dict: dictionary)
+            jsonEncoding(dictionary: dictionary)
         }
     }
 
@@ -201,11 +200,11 @@ extension Values {
                 print("You can delete these words: ")
                 def()
             } else if let key = key, language == nil {
-                jsonEncoding(dict: delK(key: key))
+                jsonEncoding(dictionary: delK(key: key))
             } else if let language = language, key == nil {
-                jsonEncoding(dict: delL(lang: language))
+                jsonEncoding(dictionary: delL(lang: language))
             } else if let key = key, let language = language {
-                jsonEncoding(dict: delKL(key: key, lang: language))
+                jsonEncoding(dictionary: delKL(key: key, lang: language))
             }
         }
     }
