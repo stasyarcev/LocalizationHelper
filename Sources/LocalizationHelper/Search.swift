@@ -9,58 +9,65 @@ import Foundation
 
 class Search: SearchProtocol {
     
-    let dict: Dictionary
-    init() {
-        self.dict = Dictionary()
+    let decode: DecodeProtocol
+    let terminal: OutputProtocol
+    var wordInDictionary: Bool
+    
+    init(decoding: DecodeProtocol, output: OutputProtocol) {
+        self.decode = decoding
+        self.terminal = output
+        self.wordInDictionary = false
     }
     
     func searching(key: String?, language: String?) {
         
-        let dictionary = dict.jsonDecoding()
+        let dictionary = decode.decoding()
+        
+        
             // -k -l
         if let language: String = language, let key: String = key {
             for (keyDictionary, valuesDictionary) in dictionary {
                 for (languageValue, wordValue) in valuesDictionary {
                     if keyDictionary.lowercased() == key.lowercased() {
                         if languageValue.lowercased() == language.lowercased() {
-                            wordInDictionary.toggle()
-                            print(wordValue.capitalizingFirstLetter())
+                            wordInDictionary = true
+                            terminal.output(word: wordValue.capitalizingFirstLetter())
                         }
                     }
                 }
             }
-            notFound(it: wordInDictionary)
             // -k
         } else if let key: String = key {
             for (keyDictionary, valuesDictionary) in dictionary {
                 if keyDictionary.lowercased() == key.lowercased() {
-                    wordInDictionary.toggle()
-                    print(keyDictionary)
+                    wordInDictionary = true
+                    terminal.output(word: keyDictionary)
                     for (languageValue, wordValue) in valuesDictionary {
-                        print("\(languageValue): \(wordValue.capitalizingFirstLetter())")
+                        terminal.outputKeyValue(key: languageValue, value: wordValue.capitalizingFirstLetter())
                     }
                 }
             }
-            notFound(it: wordInDictionary)
             // -l
         } else if let language: String = language {
             for (keyDictionary, valuesDictionary) in dictionary {
                 for (languageValue, wordValue) in valuesDictionary {
                     if languageValue.lowercased() == language.lowercased() {
-                        wordInDictionary.toggle()
-                        print("\(keyDictionary): \(wordValue.capitalizingFirstLetter())")
+                        wordInDictionary = true
+                        terminal.outputKeyValue(key: keyDictionary, value: wordValue.capitalizingFirstLetter())
                     }
                 }
             }
-            notFound(it: wordInDictionary)
             
         } else {
             for (keyDictionary, valuesDictionary) in dictionary {
-                print(keyDictionary)
+                wordInDictionary = true
+                terminal.output(word: keyDictionary)
                 for (languageValue, wordValue) in valuesDictionary {
-                    print("\(languageValue): \(wordValue.capitalizingFirstLetter())")
+                    terminal.outputKeyValue(key: languageValue, value: wordValue.capitalizingFirstLetter())
                 }
             }
         }
+        
+        terminal.successFound(word: wordInDictionary)
     }
 }

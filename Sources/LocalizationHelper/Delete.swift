@@ -9,22 +9,62 @@ import Foundation
 
 class Delete: DeleteProtocol {
     
-    func deleting(key: String?, language: String?) {
-        let dict = Dictionary()
-        var dictionary = dict.jsonDecoding()
+    let decode: DecodeProtocol
+    let encode: EncodeProtocol
+    let output: OutputProtocol
+    
+    init(decoding: DecodeProtocol, encoding: EncodeProtocol, output: OutputProtocol) {
+        self.decode = decoding
+        self.encode = encoding
+        self.output = output
+    }
+    
+    //delete -l
+    fileprivate func delL(lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
         
         for (keyDictionary, valuesDictionary) in dictionary {
-            for (languageValue, wordValue) in valuesDictionary {
-                // -k -l
-                if key == wordValue && language == languageValue  {
-                    dictionary.removeValue(forKey: keyDictionary)
-                }
-                // -k || -l
-                else if key == wordValue || language == languageValue {
-                    dictionary[keyDictionary]?[languageValue] = nil
-                }
-            }
+            var values = valuesDictionary
+            values[lang] = nil
+            dictionary[keyDictionary] = values
         }
-        dict.jsonEncoding(dictionary: dictionary)
+        return dictionary
+    }
+
+    //delete -k
+    fileprivate func delK(key: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
+        
+        dictionary[key] = nil
+        return dictionary
+    }
+
+    //delete -k -l
+    fileprivate func delKL(key: String, lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
+        
+        var values = dictionary[key] ?? [:]
+        values[lang] = nil
+        dictionary[key] = values
+        return dictionary
+    }
+    
+    func deleting(key: String?, language: String?) {
+        
+        var dictionary = decode.decoding()
+        
+        if let key = key, let langauge = language {
+            dictionary = delKL(key: key, lang: langauge, dictionary: dictionary)
+        } else if let key = key {
+            dictionary = delK(key: key, dictionary: dictionary)
+        } else if let language = language {
+            dictionary = delL(lang: language, dictionary: dictionary)
+        }
+        
+        output.output(word: "delete complete")
+        encode.encoding(dictionary: dictionary)
     }
 }

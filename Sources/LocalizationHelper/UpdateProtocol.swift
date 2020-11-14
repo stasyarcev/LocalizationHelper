@@ -8,5 +8,5 @@
 import Foundation
 
 protocol UpdateProtocol {
-    func updating(word: String?, key: String?, language: String?)
+    func updating(word: String, key: String, language: String)
 }

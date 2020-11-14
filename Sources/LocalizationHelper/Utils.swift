@@ -16,11 +16,3 @@ extension String {
         self = self.capitalizingFirstLetter()
     }
 }
-
-var wordInDictionary = false
-
-func notFound(it wordInDictionary: Bool) {
-    guard wordInDictionary == true else {
-        return print("Not found")
-    }
-}

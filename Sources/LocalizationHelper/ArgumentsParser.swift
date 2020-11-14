@@ -20,11 +20,11 @@ class ArgumentParser: ArgumentsParserProtocol {
             case let command as Commands.Update:
                 return .update(word: command.word, key: command.key, language: command.language)
             default:
-                return nil
+                return .help(massage: Commands.helpMessage())
             }
         }
         catch {
-            return nil
+            return .help(massage: Commands.helpMessage())
         }
     }
 }
