@@ -10,13 +10,22 @@
 
 ## Запуск проекта
 ```
-OVERVIEW: Dictionary of words and their translation
+OVERVIEW:  Dictionary of words and their translation
 
-USAGE: swift run LocalizationHelper [--key <key>] [--language <language>]
+USAGE: commands <subcommand>
 
 OPTIONS:
   -h, --help              Show help information.
-  -k, --key               Displays all translations of a 'word'.
-  -l, --language          Displays all words of a 'languge'.
+
+SUBCOMMANDS:
+  search                  To search for words now use the construction with the
+                          search subcommand. Working with keys is the same,
+                          they are both optional.
+  update                  To update (add) use the update keyword. Both keys are
+                          required.
+  delete                  To delete, use the delete keyword. One of the keys is
+                          required, both keys can be used.
+
+  See 'commands help <subcommand>' for detailed help.
   
 ```
