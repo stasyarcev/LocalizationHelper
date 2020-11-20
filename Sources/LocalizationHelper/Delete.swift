@@ -19,39 +19,6 @@ class Delete: DeleteProtocol {
         self.output = output
     }
     
-    //delete -l
-    fileprivate func delL(lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
-        
-        var dictionary = dictionary
-        
-        for (keyDictionary, valuesDictionary) in dictionary {
-            var values = valuesDictionary
-            values[lang] = nil
-            dictionary[keyDictionary] = values
-        }
-        return dictionary
-    }
-
-    //delete -k
-    fileprivate func delK(key: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
-        
-        var dictionary = dictionary
-        
-        dictionary[key] = nil
-        return dictionary
-    }
-
-    //delete -k -l
-    fileprivate func delKL(key: String, lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
-        
-        var dictionary = dictionary
-        
-        var values = dictionary[key] ?? [:]
-        values[lang] = nil
-        dictionary[key] = values
-        return dictionary
-    }
-    
     func deleting(key: String?, language: String?) {
         
         var dictionary = decode.decoding()
@@ -66,5 +33,38 @@ class Delete: DeleteProtocol {
         
         output.output(word: "delete complete")
         encode.encoding(dictionary: dictionary)
+    }
+    
+    //delete -l
+    private func delL(lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
+        
+        for (keyDictionary, valuesDictionary) in dictionary {
+            var values = valuesDictionary
+            values[lang] = nil
+            dictionary[keyDictionary] = values
+        }
+        return dictionary
+    }
+
+    //delete -k
+    private func delK(key: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
+        
+        dictionary[key] = nil
+        return dictionary
+    }
+
+    //delete -k -l
+    private func delKL(key: String, lang: String, dictionary: [String: [String: String]]) -> [String: [String: String]] {
+        
+        var dictionary = dictionary
+        
+        var values = dictionary[key] ?? [:]
+        values[lang] = nil
+        dictionary[key] = values
+        return dictionary
     }
 }

@@ -10,10 +10,11 @@ import Foundation
 class DecodeDictionary: DecodeProtocol {
     
     let path: String
+    let decoder = JSONDecoder()
+    
     init() {
         self.path = Bundle.main.path(forResource: "dictionary", ofType: "json") ?? "dictionary.json"
     }
-    let decoder = JSONDecoder()
     
     func decoding() -> [String : [String : String]] {
         

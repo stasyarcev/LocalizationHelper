@@ -33,30 +33,3 @@ class Update: UpdateProtocol {
         encode.encoding(dictionary: dictionary)
     }
 }
-
-//
-/////Update word
-//for (keyDictionary, valuesDictionary) in dictionary {
-//    for (languageValue, wordValue) in valuesDictionary {
-//        if let key: String = key,
-//           let language: String = language,
-//           language.lowercased() == languageValue.lowercased() &&
-//           key.lowercased() == wordValue.lowercased()
-//        {
-//            inDictionary = true
-//            dictionary[keyDictionary]?[languageValue] = word
-//            dictionary.updateValue(valuesDictionary, forKey: languageValue)
-//        }
-//    }
-//}
-//
-/////Add word
-//if let newWord: String = word,
-//   let language: String = language,
-//   let key: String = key,
-//   wordInDictionary == false
-//{
-//    emptyContainer[language] = key
-//    dictionary[newWord]?[language] = key
-//    dictionary.updateValue(emptyContainer, forKey: newWord)
-//}
