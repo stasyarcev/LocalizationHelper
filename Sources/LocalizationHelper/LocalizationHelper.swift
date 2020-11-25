@@ -1,5 +1,3 @@
-import ArgumentParser
-import Foundation
 
 class Container {
     
@@ -34,9 +32,9 @@ class Container {
     }
 }
 
-func main() {
+public func main() -> Int {
     let container = Container()
-    let arguments = container.argumentsParser.parsing()
+    let arguments = container.argumentsParser.parsing(nil)
     
     if case .search(let key, let language) = arguments {
         container.search.searching(key: key, language: language)
@@ -48,8 +46,5 @@ func main() {
         container.terminal.output(word: help)
     }
     
+    return 0
 }
-
-main()
-
-

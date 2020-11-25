@@ -5,12 +5,6 @@ import PackageDescription
 
 let package = Package(
     name: "LocalizationHelper",
-    products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
-        .library(
-            name: "LocalizationHelper",
-            targets: ["LocalizationHelper"]),
-    ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "0.3.1"),
     ],
@@ -20,8 +14,13 @@ let package = Package(
         .target(
             name: "LocalizationHelper",
             dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+            path: "Sources/LocalizationHelper",
             resources: [.process("dictionary.json")]
             ),
+        .target(
+            name: "Run",
+            dependencies: ["LocalizationHelper"]
+        )
         .testTarget(
             name: "LocalizationHelperTests",
             dependencies: ["LocalizationHelper"]),
