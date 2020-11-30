@@ -4,6 +4,7 @@ passedTests=0
 failedTests=0
 numberOfTests=0
 
+./.build/debug/LocalizationHelper "search"
 function test() {
 
     let numberOfTests++
@@ -12,20 +13,14 @@ function test() {
     expected=$2
     actual=$?
     
-    ./.build/debug/LocalizationHelper "$argument"
-    
-    if [ $actual == $expected]; then
+    if [[ $actual -eq $expected ]]; then
         let passedTests++
-        tput setaf 2
         echo "$argumnet 'passed' with code $actual (expected code: $expected)"
-        tput setaf 0
-
     else
         let failedTests++
-        tput setaf 1
         echo "$argumnet 'failed' with code $actual (expected code: $expected)"
-            tput setaf 0
     fi
+    
 }
 
 echo "Тест help"
@@ -64,7 +59,7 @@ test "delete -k день -l" 1
 test "delete -t ru" 1
 test "delete -k" 1
 
-echo "-----------"
-echo "Number of tests:$numberOfTests"
-echo "Passed tests:$passedTests"
-echo "Failed tests: $failedTests"
+echo "-----------------------------------------"
+echo "Number of tests: $numberOfTests"
+echo "Number of passed tests: $passedTests"
+echo "Number of failed tests: $failedTests"
