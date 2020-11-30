@@ -8,5 +8,5 @@
 import Foundation
 
 protocol EncodeProtocol {
-    func encoding(dictionary: [String : [String : String]])
+    func encoding(dictionary: [String : [String : String]]) 
 }

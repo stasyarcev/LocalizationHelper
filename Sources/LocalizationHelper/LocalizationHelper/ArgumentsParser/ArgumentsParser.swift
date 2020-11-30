@@ -7,25 +7,26 @@
 
 import ArgumentParser
 
-class ArgumentParser: ArgumentsParserProtocol {
-    
-    func parsing(_ arguments: [String]?) -> Arguments? {
+class ArgumentsParser: ArgumentsParserProtocol {
+    func parsing(_ arguments: [String]?) -> ParserResults <Arguments, ArgumentsParserError> {
         do {
-            let command = try Commands.parseAsRoot(arguments)
+            let command = try Commands.parseAsRoot()
             
             switch command {
             case let command as Commands.Search:
-                return .search(key: command.key, language: command.language)
+                return .success(.search(key: command.key, language: command.language))
             case let command as Commands.Delete:
-                return .delete(key: command.key, language: command.language)
+                return .success(.delete(key: command.key, language: command.language))
             case let command as Commands.Update:
-                return .update(word: command.word, key: command.key, language: command.language)
+                return .success(.update(word: command.word, key: command.key, language: command.language))
+            case let command as Commands.Help:
+                return .success(.help(massage: Commands.helpMessage()))
             default:
-                return .help(message: Commands.helpMessage())
+                return .failure(.commandNotFound(text: Commands.helpMessage()))
             }
         }
         catch {
-            return .help(message: Commands.helpMessage())
+            return .failure(.parseError(text: Commands.helpMessage()))
         }
     }
 }
@@ -69,5 +70,13 @@ extension Commands {
         var key: String?
         @Option(name: .shortAndLong, help: "Remove the translation of a word from a dictionary.")
         var language: String?
+    }
+    
+    struct Help: ParsableCommand {
+        
+        static var configuration = CommandConfiguration(abstract: "Help")
+            
+        @Option (name: .shortAndLong)
+        var help: String?
     }
 }

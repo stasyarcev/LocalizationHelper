@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DecodeProtocol {
-    func decoding() -> [String: [String: String]]
+    func decoding() -> [String : [String : String]]
 }

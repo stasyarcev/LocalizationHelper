@@ -19,13 +19,21 @@ class Search: SearchProtocol {
         self.wordInDictionary = false
     }
     
-    func searching(key: String?, language: String?) {
+    func searching(key: String?, language: String?) -> SearchResults <SearchSuccess, SearchError> {
         
         let dictionary = decode.decoding()
         
-        
-            // -k -l
-        if let language: String = language, let key: String = key {
+        if key == nil && language == nil {
+            print(dictionary)
+            for (keyDictionary, valuesDictionary) in dictionary {
+                wordInDictionary = true
+                terminal.output(word: keyDictionary)
+                for (languageValue, wordValue) in valuesDictionary {
+                    terminal.outputKeyValue(key: languageValue, value: wordValue.capitalizingFirstLetter())
+                }
+            }
+            return .success(.searchingSuccess)
+        } else if let language: String = language, let key: String = key {
             for (keyDictionary, valuesDictionary) in dictionary {
                 for (languageValue, wordValue) in valuesDictionary {
                     if keyDictionary.lowercased() == key.lowercased() {
@@ -36,7 +44,7 @@ class Search: SearchProtocol {
                     }
                 }
             }
-            // -k
+            return .success(.searchingSuccess)
         } else if let key: String = key {
             for (keyDictionary, valuesDictionary) in dictionary {
                 if keyDictionary.lowercased() == key.lowercased() {
@@ -47,7 +55,7 @@ class Search: SearchProtocol {
                     }
                 }
             }
-            // -l
+            return .success(.searchingSuccess)
         } else if let language: String = language {
             for (keyDictionary, valuesDictionary) in dictionary {
                 for (languageValue, wordValue) in valuesDictionary {
@@ -57,17 +65,10 @@ class Search: SearchProtocol {
                     }
                 }
             }
-            
+            return .success(.searchingSuccess)
         } else {
-            for (keyDictionary, valuesDictionary) in dictionary {
-                wordInDictionary = true
-                terminal.output(word: keyDictionary)
-                for (languageValue, wordValue) in valuesDictionary {
-                    terminal.outputKeyValue(key: languageValue, value: wordValue.capitalizingFirstLetter())
-                }
-            }
+            terminal.successFound(word: false)
+            return .failure(.notFound)
         }
-        
-        terminal.successFound(word: wordInDictionary)
     }
 }

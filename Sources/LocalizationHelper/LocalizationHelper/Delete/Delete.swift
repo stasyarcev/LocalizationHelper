@@ -19,7 +19,8 @@ class Delete: DeleteProtocol {
         self.output = output
     }
     
-    func deleting(key: String?, language: String?) {
+    public func deleting(key: String?, language: String?) -> DeleteResults <DeleteSuccess, DeleteError> {
+        
         
         var dictionary = decode.decoding()
         
@@ -33,6 +34,7 @@ class Delete: DeleteProtocol {
         
         output.output(word: "delete complete")
         encode.encoding(dictionary: dictionary)
+        return .success(.deletingSuccess)
     }
     
     //delete -l
