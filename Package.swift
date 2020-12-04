@@ -20,7 +20,13 @@ let package = Package(
         .target(
             name: "LocalizationHelper",
             dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")],
+            path: "Sources/LocalizationHelper",
             resources: [.process("dictionary.json")]
+            ),
+        .target(
+            name: "Run",
+            dependencies: ["LocalizationHelper"],
+            path: "Sources/Run"
             ),
         .testTarget(
             name: "LocalizationHelperTests",
