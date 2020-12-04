@@ -63,3 +63,9 @@ echo "-----------------------------------------"
 echo "Number of tests: $numberOfTests"
 echo "Number of passed tests: $passedTests"
 echo "Number of failed tests: $failedTests"
+
+if [ $failedTests -eq 0 ]; then
+  exit 0
+else
+  exit 1
+fi
